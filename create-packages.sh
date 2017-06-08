@@ -17,7 +17,12 @@ make
 make install
 popd
 rm -rf libdill
-mv ${DIR}/libdill-${LIBDILL_VERSION} ${DIR}/libdill
+
+mkdir -p libdill/usr/local/include
+mkdir -p libdill/usr/local/lib
+mv ${DIR}/libdill-${LIBDILL_VERSION}/include libdill/usr/local
+mv ${DIR}/libdill-${LIBDILL_VERSION}/lib libdill/usr/local
+rm -rf ${DIR}/libdill-${LIBDILL_VERSION}/
 
 # create libdill deb
 
