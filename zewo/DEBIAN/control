@@ -7,4 +7,4 @@ Essential: no
 Installed-Size: 0
 Maintainer: zewo.io
 Description: zewo
-Depends: libdill, btls, libtls
+Depends: libdill, btls, libressl
