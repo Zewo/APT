@@ -8,26 +8,20 @@ DIR=${PWD}
 
 PACKAGE=libdill
 PACKAGE_VERSION=1.6.0
+PREFIX=/usr/local
+DESTDIR=${DIR}/${PACKAGE}
+MAKEDIR=${PACKAGE}-${PACKAGE_VERSION}
 
-rm -rf ${PACKAGE}
-git clone https://github.com/Zewo/${PACKAGE}
-pushd ${PACKAGE}
+rm -rf ${DESTDIR}
+
+git clone https://github.com/Zewo/${PACKAGE} ${MAKEDIR}
+pushd ${MAKEDIR}
 ./autogen.sh
-./configure --prefix=${DIR}/${PACKAGE}-${PACKAGE_VERSION}
+./configure --prefix=${PREFIX}
 make
-make install
+make DESTDIR=${DESTDIR} install
 popd
-rm -rf ${PACKAGE}
-
-INSTALL_PATH=${PACKAGE}/usr/local
-INSTALL_INCLUDE_PATH=${INSTALL_PATH}/include
-INSTALL_LIBRARY_PATH=${INSTALL_PATH}/lib
-
-mkdir -p ${INSTALL_INCLUDE_PATH}
-mkdir -p ${INSTALL_LIBRARY_PATH}
-mv ${DIR}/${PACKAGE}-${PACKAGE_VERSION}/include ${INSTALL_PATH}
-mv ${DIR}/${PACKAGE}-${PACKAGE_VERSION}/lib ${INSTALL_PATH}
-rm -rf ${DIR}/${PACKAGE}-${PACKAGE_VERSION}/
+rm -rf ${MAKEDIR}
 
 # create libdill deb
 
@@ -51,33 +45,27 @@ dpkg-deb --build ${PACKAGE}
 
 PACKAGE=libressl
 PACKAGE_VERSION=2.5.4
+PREFIX=/usr/local/opt/libressl
+DESTDIR=${DIR}/${PACKAGE}
+MAKEDIR=${PACKAGE}-${PACKAGE_VERSION}
 
-rm -rf ${PACKAGE}
-mkdir -p ${PACKAGE}
-wget http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/${PACKAGE}-${PACKAGE_VERSION}.tar.gz
-tar axf ${PACKAGE}-${PACKAGE_VERSION}.tar.gz -C ${DIR}/${PACKAGE} --strip-components=1
-rm -rf ${PACKAGE}-${PACKAGE_VERSION}.tar.gz
-pushd ${PACKAGE}
-./configure --prefix=${DIR}/${PACKAGE}-${PACKAGE_VERSION}
+rm -rf ${DESTDIR}
+
+mkdir -p ${MAKEDIR}
+wget http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/${MAKEDIR}.tar.gz
+tar axf ${MAKEDIR}.tar.gz -C ${MAKEDIR} --strip-components=1
+rm -rf ${MAKEDIR}.tar.gz
+pushd ${MAKEDIR}
+./configure --prefix=${PREFIX}
 make
-make install
+make DESTDIR=${DESTDIR} install
 popd
-rm -rf ${PACKAGE}
+rm -rf ${MAKEDIR}
 
-INSTALL_PATH=${PACKAGE}/usr/local/opt/libressl
-INSTALL_INCLUDE_PATH=${INSTALL_PATH}/include
-INSTALL_LIBRARY_PATH=${INSTALL_PATH}/lib
-
-mkdir -p ${INSTALL_INCLUDE_PATH}
-mkdir -p ${INSTALL_LIBRARY_PATH}
-mv ${DIR}/${PACKAGE}-${PACKAGE_VERSION}/include ${INSTALL_PATH}
-mv ${DIR}/${PACKAGE}-${PACKAGE_VERSION}/lib ${INSTALL_PATH}
-rm -rf ${DIR}/${PACKAGE}-${PACKAGE_VERSION}/
-
-INSTALL_PKGCONF_PATH=${PACKAGE}/usr/local/lib/pkgconfig
+INSTALL_PKGCONF_PATH=${DESTDIR}/usr/local/lib/pkgconfig
 
 mkdir -p ${INSTALL_PKGCONF_PATH}
-ln -s /usr/local/opt/libressl/lib/pkgconfig/libtls.pc ${INSTALL_PKGCONF_PATH}/libtls.pc
+ln -s ${DESTDIR}${PREFIX}/lib/pkgconfig/libtls.pc ${INSTALL_PKGCONF_PATH}/libtls.pc
 
 # create libressl deb
 
