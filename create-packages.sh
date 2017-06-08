@@ -77,7 +77,7 @@ rm -rf ${DIR}/${PACKAGE}-${PACKAGE_VERSION}/
 INSTALL_PKGCONF_PATH=${PACKAGE}/usr/local/lib/pkgconfig
 
 mkdir -p ${INSTALL_PKGCONF_PATH}
-ln -s ${INSTALL_LIBRARY_PATH}/pkgconfig/libtls.pc ${INSTALL_PKGCONF_PATH}/libtls.pc
+ln -s /usr/local/opt/libressl/lib/pkgconfig/libtls.pc ${INSTALL_PKGCONF_PATH}/libtls.pc
 
 # create libressl deb
 
