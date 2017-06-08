@@ -1,0 +1,10 @@
+Package: zewo
+Version: 0.14.0
+Section: custom
+Priority: optional
+Architecture: all
+Essential: no
+Installed-Size: 0
+Maintainer: zewo.io
+Description: zewo
+Depends: libdill, btls, libtls
