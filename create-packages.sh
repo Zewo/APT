@@ -19,7 +19,7 @@ pushd ${MAKEDIR}
 ./autogen.sh
 ./configure --prefix=${PREFIX}
 make
-make DESTDIR=${DESTDIR} install
+make install DESTDIR=${DESTDIR}
 popd
 rm -rf ${MAKEDIR}
 
@@ -58,7 +58,7 @@ rm -rf ${MAKEDIR}.tar.gz
 pushd ${MAKEDIR}
 ./configure --prefix=${PREFIX}
 make
-make DESTDIR=${DESTDIR} install
+make install DESTDIR=${DESTDIR}
 popd
 rm -rf ${MAKEDIR}
 
@@ -83,6 +83,41 @@ echo "Essential: no" >> ${CONTROL}
 echo "Installed-Size: 256" >> ${CONTROL}
 echo "Maintainer: zewo.io" >> ${CONTROL}
 echo "Description: ${PACKAGE}" >> ${CONTROL}
+dpkg-deb --build ${PACKAGE}
+
+# install btls
+
+PACKAGE=btls
+PACKAGE_VERSION=0.1.0
+PREFIX=/usr/local
+DESTDIR=${DIR}/${PACKAGE}
+MAKEDIR=${PACKAGE}-${PACKAGE_VERSION}
+
+rm -rf ${DESTDIR}
+
+git clone https://github.com/Zewo/${PACKAGE} ${MAKEDIR}
+pushd ${MAKEDIR}
+make install DESTDIR=${DESTDIR} PREFIX=${PREFIX}
+popd
+rm -rf ${MAKEDIR}
+
+# create libdill deb
+
+rm -f ${PACKAGE}.deb
+mkdir -p ${PACKAGE}/DEBIAN
+CONTROL=${PACKAGE}/DEBIAN/control
+rm -f ${CONTROL}
+touch ${CONTROL}
+echo "Package: ${PACKAGE}" >> ${CONTROL}
+echo "Version: ${PACKAGE_VERSION}" >> ${CONTROL}
+echo "Section: custom" >> ${CONTROL}
+echo "Priority: optional" >> ${CONTROL}
+echo "Architecture: all" >> ${CONTROL}
+echo "Essential: no" >> ${CONTROL}
+echo "Installed-Size: 256" >> ${CONTROL}
+echo "Maintainer: zewo.io" >> ${CONTROL}
+echo "Description: ${PACKAGE}" >> ${CONTROL}
+echo "Depends: libdill, libressl" >> ${CONTROL}
 dpkg-deb --build ${PACKAGE}
 
 # create zewo deb
