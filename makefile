@@ -1,12 +1,13 @@
 PREFIX=/usr/local
 BUILD_DIR=$(PWD)/build
 DESTDIR=$(BUILD_DIR)/install
-PACKAGES=libdill.deb libressl.deb
+PACKAGES=libdill.deb libressl.deb btls.deb
 TARGETS=$(PACKAGES:%.deb=$(DESTDIR)/%.deb)
 
 include include/functions.mk
 include include/libdill.mk
 include include/libressl.mk
+include include/btls.mk
 
 all: $(TARGETS)
 	echo $(TARGETS)
@@ -14,7 +15,7 @@ all: $(TARGETS)
 $(BUILD_DIR): splash
 	-@mkdir $@
 
-purge: splash
+clean: splash
 	@\rm -fR $(BUILD_DIR)
 	@\rm -fR $(DESTDIR)
 
