@@ -37,7 +37,7 @@ include include/libdill.mk
 include include/libressl.mk
 include include/btls.mk
 
-.PHONY: splash
+.PHONY: all clean purge splash
 
 splash:
 	$(splash)
