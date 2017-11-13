@@ -65,6 +65,12 @@ BTLS_VERSION=0.1.0
 This is the variable you need to update. After updating it, just save the file,
 move to upper directory and build it.
 
+# After your upgrade
+
+After your upgrade, you need to build everything. At the end of the build,
+commit everything and push to the remote repository. This step is necessary to
+upgrade the published debian packages available for download.
+
 # Adding Debian packages to your system
 
 Follow this recipe:
