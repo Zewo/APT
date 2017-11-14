@@ -26,7 +26,7 @@
 # Author: Ronaldo F. Lima <ronaldo@nineteen.com.br>
 #
 
-DILL_VERSION=1.6
+DILL_VERSION=1.6.2
 DILL_REPO=https://github.com/Zewo/libdill.git
 DILL_MODULE=libdill
 DILL_DESC="Go-style C concurrency library"
